@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="bfide.css">
+		<script src="terminal.js"></script>
+		
+	</head>
+	<body class="running-no debugging-no terminated-no expanded-x-no" style="overflow-y: scroll">
+		<div class="container">
+			<div class="page-header">
+			  <h1>Brainfuck IDE</h1>
+			</div>
+			<div class="row">
+				<div id="panel-main" class="col-sm-6">
+					<h2>
+						Input
+						<expand class="expanded-y-yes" targety="source-edit source-view">
+							<button class="expandx    hide-on-expandx glyphicon glyphicon-resize-full" />
+							<button class="collapse-x show-on-expandx glyphicon glyphicon-resize-small" />
+							<button class="expandy    hide-on-expandy glyphicon glyphicon-expand" />
+							<button class="collapse-y show-on-expandy glyphicon glyphicon-collapse-down" />
+						</expand>
+					</h2>
+					<div id="panel-source">
+						<textarea id="source-edit" class="hide-on-run codebox" style="min-width: 100%">
+							# Print 'Enter your name: '
+							++++++++[&gt;+&gt;++&gt;+++&gt;++++&gt;+++++&gt;++++++&gt;+++++++&gt;++++++++&gt;+++++++++&gt;++++++++++&gt;+++++
+							++++++&gt;++++++++++++&gt;+++++++++++++&gt;++++++++++++++&gt;+++++++++++++++&gt;+++++++++++++++
+							+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;---.+++&gt;&gt;&gt;&gt;&gt;--.++&gt;----.++++&lt;&lt;---.+++&gt;++.--&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+							.&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+.-&lt;-.+&gt;---.+++&lt;++.--&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;.&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;--.++&lt;&lt;+.-&gt;&gt;---.+++&lt;---.++
+							+&lt;&lt;&lt;&lt;&lt;&lt;++.--&lt;&lt;&lt;.
+
+							# $name = Read Line
+							[&gt;]&gt;,----------[++++++++++&gt;,----------]
+
+							# Print 'Hello '
+							++++++++[&gt;+&gt;++&gt;+++&gt;++++&gt;+++++&gt;++++++&gt;+++++++&gt;++++++++&gt;+++++++++&gt;++++++++++&gt;+++++ ++++++&gt;++++++++++++&gt;+++++++++++++&gt;++++++++++++++&gt;+++++++++++++++&gt;+++++++++++++++ +&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;.&gt;&gt;&gt;&gt;---.+++&gt;----.++++----.++++-.+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;.&lt;&lt;&lt;&lt;.
+
+							# Print $name
+							&lt;[&lt;]&gt;[.&gt;]
+
+							# Print '!'
+							&gt;&gt;&gt;&gt;+.
+						</textarea>
+						<div id="source-view" class="show-on-run codebox" style="min-width: 100%"></div>
+					</div>
+					<div id="panel-action">
+						<button id="btn-run"   class="hide-on-run">Run</button>
+						<button id="btn-debug" class="hide-on-run">Debug</button>
+						<button id="btn-stop"  class="show-on-run hide-on-terminate">Stop</button>
+						<button id="btn-edit"  class="show-on-terminate">Edit</button>
+						<button id="btn-restart"  class="show-on-terminate">Restart</button>
+						<button id="btn-dbg-single" class="show-on-debug">Single Step</button>
+						<button id="btn-dbg-continueLoop" class="show-on-debug">Continue Loop</button>
+						<button id="btn-dbg-breakLoop" class="show-on-debug">Break Loop</button>
+						<button id="btn-dbg-continue" class="show-on-debug">Continue</button>
+						<button id="btn-dbg-skip" class="show-on-debug">Skip Breakpoints</button>
+						<button id="btn-view-js" class="show-on-run">Generated JS</button>
+					</div>
+				
+					<div class="show-on-debug">
+						Click on an Brainfuck instruction for toggling <span class="syntax-breakpoint">breakpoint</span>.
+					</div>
+					<div class="hide-on-debug">
+						&nbsp;
+					</div>
+				</div>
+				<div id="panel-output" class="col-sm-4">
+					<h2>
+						Input & Output
+						<expand class="expanded-y-yes" targety="io-terminal">
+							<button class="expandx    hide-on-expandx glyphicon glyphicon-resize-full" />
+							<button class="collapse-x show-on-expandx glyphicon glyphicon-resize-small" />
+							<button class="expandy    hide-on-expandy glyphicon glyphicon-expand" />
+							<button class="collapse-y show-on-expandy glyphicon glyphicon-collapse-down" />
+						</expand>
+					</h2>
+					<terminal id="io-terminal"></terminal>
+				</div>
+				<div id="panel-settings" class="col-sm-2">
+					<h2>Settings</h2>
+					<h3>Memory</h3>
+					<p class="disable-on-run">
+						<strong>Cell Size:</strong>
+						<option>
+							<input type="radio" name="cellsize" id="rdb-set-cell08" checked>
+							<label for="rdb-set-cell08">8 bit</label>
+						</option>
+						<option>
+							<input type="radio" name="cellsize" id="rdb-set-cell16">
+							<label for="rdb-set-cell16">16 bit</label>
+						</option>
+						<option>
+							<input type="radio" name="cellsize" id="rdb-set-cell32">
+							<label for="rdb-set-cell32">32 bit</label>
+						</option>
+					</p>
+					<p class="disable-on-run">
+						<strong>Pointer overflow behaviour:</strong>
+						<option>
+							<input type="radio" name="cachepointer" id="rdb-set-undefinedcache" checked>
+							<label for="rdb-set-undefinedcache">Undefined</label>
+						</option>
+						<option>
+							<input type="radio" name="cachepointer" id="rdb-set-wrapcache" checked>
+							<label for="rdb-set-wrapcache">Wrap</label>
+						</option>
+						<option>
+							<input type="radio" name="cachepointer" id="rdb-set-errorcache">
+							<label for="rdb-set-errorcache">Error</label>
+						</option>
+						<option>
+							<input type="radio" name="cachepointer" id="rdb-set-infinitecache">
+							<label for="rdb-set-infinitecache">Infinite Memory</label>
+						</option>
+					</p>
+					<p class="disable-on-run">
+						<option>
+							<label for="num-set-cachesize">Memory Size:</label>
+							<input type="number" id="num-set-cachesize" min="1" max="1048575" value="512" style="width:5em">
+						</option>
+					</p>
+					<h3>Memory View</h3>
+					<p>
+						<option>
+							<label for="num-mem-colsize">Column size</label>
+							<input type="number" id="num-mem-colsize" min="1" max="1024" value="32" style="width:5em">
+						</option>
+						<option>
+							<input type="checkbox" id="ckb-mem-colindex" checked>
+							<label for="ckb-mem-colindex">Show column index</label>
+						</option>
+						<option>
+							<input type="checkbox" id="ckb-mem-hex" checked>
+							<label for="ckb-mem-hex">Show hex values</label>
+						</option>
+						<option>
+							<input type="checkbox" id="ckb-mem-dec">
+							<label for="ckb-mem-dec">Show decimal values</label>
+						</option>
+						<option>
+							<input type="checkbox" id="ckb-mem-ascii" checked>
+							<label for="ckb-mem-ascii">Show ASCII values</label>
+						</option>
+					</p>
+				</div>
+			</div>
+			<div class="row" style="margin-right:50px">
+				<div id="panel-memory" class="col-sm-9">
+					<h2>Memory</h2>
+					<div id="memory-settings">
+					</div>
+					<div class="show-on-run code">Memory Pointer = <span id="memory-pointer">0</span></div>
+					<div class="show-on-run" id="memory"></div>
+					<div class="hide-on-run" style="tpadding-top:2em;font-size:2em;opacity:0.4">N/A</div>
+				</div>
+			</div>
+		</div>
+		
+		<footer> Created by <a href="https://github.com/JP314">JP3141</a></footer>
+
+
+		
+		<img style="position: absolute; top: 0; right: 0; border: 0;" 
+		     src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+			 alt="Fork me on GitHub"
+			 data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+			 usemap="#fork">
+			 
+		<map name="fork">
+			<area shape="poly" coords="148,130,16,1,146,3" href="https://github.com/JP314/bfide" alt="Fork me on GitHub" />
+		</map>
+		
+		<map name="fork">
+		  <area shape="rect" coords="0,0,82,126" href="sun.htm" alt="Sun">
+		  <area shape="circle" coords="90,58,3" href="mercur.htm" alt="Mercury">
+		  <area shape="circle" coords="124,58,8" href="venus.htm" alt="Venus">
+		</map>
+		<map name="fork">
+			<area shape="poly" coords="17,0,150,133,150,150,0"></area>
+		</map>
+		
+		<a href="https://github.com/JP314/bfide"></a>
+		<script src="bf.js"></script>
+		<script src="bfide.js"></script>
+	</body>
+</html>
