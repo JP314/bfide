@@ -119,35 +119,6 @@ var ideState = new (function() {
 			me.memoryView.columns = Number($("#num-mem-colsize").val()) || 16;
 			me.updateMemoryView();
 		});
-		
-		function expandx(val) {
-			setBoolClass("body", "expanded-x", val);
-			$("#panel-main, #panel-output").animate({
-				width: val ? "100%" : "50%"
-			}, {
-				complete:function() {
-					$(this)
-						.removeClass("col-sm-6")
-						.removeClass("col-sm-12")
-						.css("width", "")
-						.addClass(val ? "col-sm-12" : "col-sm-6");
-				}
-			});
-		}
-		
-		$(".expandx").click(function() expandx(true));
-		$(".collapse-x").click(function() expandx(false));
-		
-		function expandy(src, val) {
-			var expand = $(src).parent();
-			setBoolClass(expand, "expanded-y", val);
-			var targets = expand.attr("targety").trim().split(/\s+/g).map(function(s) "#"+s).join(", ");
-			$(targets).css("height", val ? "25em" : "5em");
-		}
-		
-		$(".expandy").click(function() expandy(this, true));
-		$(".collapse-y").click(function() expandy(this, false));
-		
 	};
 	
 	this.applyUIChanges = function(state) {

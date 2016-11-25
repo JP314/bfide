@@ -20,32 +20,13 @@ body.running-no  .show-on-run,
 body.debugging-yes .hide-on-debug,
 body.debugging-no  .show-on-debug,
 body.terminated-yes .hide-on-terminate,
-body.terminated-no  .show-on-terminate,
-body.expanded-x-no .show-on-expandx,
-body.expanded-x-yes .hide-on-expandx,
-expand.expanded-y-no .show-on-expandy,
-expand.expanded-y-yes .hide-on-expandy {
+body.terminated-no  .show-on-terminate {
 	display: none;
 }
 
 body.running-yes .disable-on-run {
 	pointer-events: none;
 	opacity: 0.4;
-}
-
-/* expand buttons */
-expand button {
-	float:right;
-	background:none!important;
-	border:none; 
-	margin-top: 0.7em;
-	padding:0!important;
-	cursor: pointer;
-	font-size:0.5em;
-	width:1em;
-	display: inline-block;
-	vertical-align: middle;
-	margin-left:1em;
 }
 
 /* main panel ( source and io ) */
