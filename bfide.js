@@ -185,6 +185,8 @@ var ideState = new (function() {
 			if (e.length === 3) {
 				alert(e[0]); // show msg
 				e[1](e[2]); // dump
+			} else {
+				throw e;
 			}
 		}
 		if (debug) {
@@ -203,6 +205,18 @@ var ideState = new (function() {
 		var oldPointer = this.debugPointer;
 		
 		var id = this.bf.debugStep(
+			function(id) {
+				if (id === -1) {
+					me.applyUIChanges(STATES.TERMINATED);
+					me.setDebugInsnPointer(-1);
+				} else if(id !== undefined) {
+					me.setDebugInsnPointer(id+1);
+				} 
+				else {
+					// restore old pointers
+					me.setDebugInsnPointer(oldPointer);
+				}
+			},
 			this.debugSource,
 			mode,
 			function(id) $(".insn-"+(id+1)).hasClass("syntax-breakpoint"),
@@ -215,17 +229,6 @@ var ideState = new (function() {
 				});
 			}
 		);
-				
-		if (id === -1) {
-			this.applyUIChanges(STATES.TERMINATED);
-			this.setDebugInsnPointer(-1);
-		} else if(id !== undefined) {
-			this.setDebugInsnPointer(id+1);
-		} 
-		else {
-			// restore old pointers
-			this.setDebugInsnPointer(oldPointer);
-		}
 	};
 	
 	this.setDebugInsnPointer = function(id) {

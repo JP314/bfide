@@ -14,6 +14,29 @@
   }
 }
 
+/* footer */
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  padding-bottom:4em; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+  position: relative;
+  margin-top: -3em; /* negative value of footer height */
+  height: 3em;
+  padding-top: 1em;
+  padding-left: 1em;
+  clear:both;
+  color: gray;
+} 
+
 /* ide states */
 body.running-yes .hide-on-run,
 body.running-no  .show-on-run,

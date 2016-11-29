@@ -144,7 +144,7 @@ var bf = function(bfsource) {
 	this.getIndexOfInsnId = function(id) {
 		for(var i = 0, end = this.instructions.length; i < end; i++) {
 			if (this.instructions[i].id === id)
-				return id;
+				return i;
 		}
 	}
 	
@@ -153,7 +153,7 @@ var bf = function(bfsource) {
 		var loopDepth = 0;
 		var start = this.getIndexOfInsnId(id);
 		if (start !== undefined) {
-			for(var i = this.getIndexOfInsnId(id), end = this.instructions.length; 0 <= i && i < end; i+=step) {
+			for(var i = start, end = this.instructions.length; 0 <= i && i < end; i+=step) {
 				var insn = this.instructions[i];
 				if (insn) {
 					if (insn.type === INSTRUCTIONS.BEGIN_LOOP) loopDepth+=step;
@@ -172,6 +172,11 @@ var bf = function(bfsource) {
 	this.instructions = compileToInstructions();
 	this.bfsource = bfsource;
 
+//	//log instructions
+//	for(var i = 0; i < this.instructions.length; i++) {
+//		console.log(this.instructions[i]);
+//	}
+	
 	this.toHTML = function() {
 		var result = "";
 		for(var i = 0, len = this.instructions.length; i < len; i++) {
@@ -283,7 +288,7 @@ var bf = function(bfsource) {
 		}
 	}
 	
-	this.debugStep = function(jsFuncIter, debugMode, hasBreakpoint, readCallback) {
+	this.debugStep = function(resultCallback, jsFuncIter, debugMode, hasBreakpoint, readCallback) {
 		
 		if (debugMode == null)
 			throw "Invalid debug mode: " + debugMode;
@@ -326,20 +331,22 @@ var bf = function(bfsource) {
 					break;
 				}
 			}
+			
+			var resultId;
+			if (iterState.done) {
+				resultId = -1;
+			}
+			else if (iterState.value.length === 2) {
+				var currentId = iterState.value[1];
+				iterState.value[0](currentId); // update memory
+				resultId = currentId;
+			}
+			else {
+				resultId = undefined; // no position update
+			}
+			resultCallback(resultId);
+			
 		}
-		
 		inner();
-		
-		if (iterState.done) {
-			return -1;
-		}
-		else if (iterState.value.length === 2) {
-			var currentId = iterState.value[1];
-			iterState.value[0](currentId); // update memory
-			return currentId;
-		}
-		else {
-			return undefined; // no position update
-		}
 	}
 }
