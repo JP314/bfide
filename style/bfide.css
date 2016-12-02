@@ -1,0 +1,155 @@
+/* bootrap overrides */
+.page-header {
+	margin-top:10px;
+	margin-bottom:0px;
+}
+
+.container {
+	margin-bottom: 1em;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 95%;
+  }
+}
+
+/* footer */
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  padding-bottom:4em; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+  position: relative;
+  margin-top: -3em; /* negative value of footer height */
+  height: 3em;
+  padding-top: 1em;
+  padding-left: 1em;
+  clear:both;
+  color: gray;
+} 
+
+/* ide states */
+body.running-yes .hide-on-run,
+body.running-no  .show-on-run,
+body.debugging-yes .hide-on-debug,
+body.debugging-no  .show-on-debug,
+body.terminated-yes .hide-on-terminate,
+body.terminated-no  .show-on-terminate {
+	display: none;
+}
+
+body.running-yes .disable-on-run {
+	pointer-events: none;
+	opacity: 0.4;
+}
+
+/* main panel ( source and io ) */
+#source-view, #io-terminal { 
+	background-color: #F2F2F2;
+}
+
+#source-view, #source-edit, #io-terminal {
+	box-sizing:border-box;
+	overflow-x: scroll;
+	overflow-y: visible;
+	height:30em;
+}
+
+#io-terminal {
+	display:block;
+}
+
+.code, .codebox {
+	font-family: "Consolas";
+	word-wrap: break-word;
+	white-space: pre-line;
+}
+
+.codebox {
+	border: 1px solid #DDD;
+	padding: 0em;
+	margin: 0em;
+}
+
+cmt {
+	color:green;
+}
+.syntax-breakpoint {
+	color:red;
+}
+.debug-pointer {
+	background-color:yellow;
+}
+
+/* memory */
+#memory td {
+	border-left: 1px solid #DDD;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+.mem-tbl-index {
+	text-align: right;
+}
+
+mem-ptr {
+	font-weight: bold;
+	color: red;
+}
+
+/* settings */
+#panel-settings option {
+	display: block;
+	font-size: 1em;
+}
+
+#panel-settings option strong {
+	display: block;
+}
+
+button {
+	width: 9em;
+}
+
+/* terminal */
+.terminal {
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: pre;
+	margin:0;
+	padding:0;
+	font-family:Consolas;
+}
+
+.terminal-input-line {
+	position: absolute;
+	margin-left:-999999px;
+}
+
+.terminal-cursor {
+	background-color: #CCC;
+}
+
+.terminal-focused .terminal-cursor {
+	background-color: #333;
+}
+
+.terminal-reading .terminal-cursor {
+	animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+	0% { opacity: 0; }
+	49% { opacity: 0; }
+	50% { opacity: 1; }
+	100% { opacity: 1; }
+}
