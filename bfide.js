@@ -65,9 +65,23 @@ var ideState = new (function() {
 	}
 	
 	function scrollTo(container, target) {
-		container = $(container);
-		target = $(target);
-		if (container.length > 0 && target.length > 0) {
+		container = $(container).first();
+		target = $(target).first();
+
+		var viewport = {
+			top : container.scrollTop(),
+			left : container.scrollLeft()
+		};
+		viewport.right = viewport.left + container.width();
+		viewport.bottom = viewport.top + container.height();
+		
+		var bounds = target.offset();
+		bounds.right = bounds.left + target.outerWidth();
+		bounds.bottom = bounds.top + target.outerHeight();
+		
+		var isOnScreen = !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
+		
+		if (!isOnScreen) {
 			container.animate({
 				scrollTop: target.offset().top - container.offset().top + container.scrollTop()
 			}, 100);
